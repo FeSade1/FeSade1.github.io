@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -6,6 +7,39 @@
     <title>Procuração de Condutor</title>
 
 	<style>
+	@media print {
+	    input {
+	        border: 0
+	    }
+	    input::-webkit-input-placeholder {
+	    	color: black;
+		}
+		input:-moz-placeholder {
+	    	color: black;
+		}
+		input::-moz-placeholder {
+	    	color: black;
+		}
+		input:-ms-input-placeholder {
+	    	color: black;
+		}
+	}
+	
+	
+	input {
+		gap: 0px;
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+		
+		font-family: arial;
+		font-weight: bold;
+		font-size: 16px;
+	}
+	
+	.cliente {
+		width: 425px;
+	}
 	img {
 		height: 75px;
 		}
@@ -50,8 +84,12 @@
     <h1 class="title">PROCURAÇÃO DE CONDUTOR</h1>
     </div>
 	<div class="bloco">
-	<div>OUTORGANTE: ______________________________________________</div>
-	<div>CPF / CNPJ: ______________________________________________</div>
+	<div class="linha negrito">
+	<label for="outorgante">OUTORGANTE:</label><input class="cliente" id="outorgante" placeholder="______________________________________________">
+	</div>
+	<div class="linha negrito">
+	<label for="cpf">CPF / CNPJ:</label><input class="cliente" id="cpf" placeholder="______________________________________________">
+	</div>
 	</div>
 	<div class="bloco pequeno">
 	<div>NOME: JOSÉ ROBERTO WERLE | RG: 4.418.112-6 /PR | CPF: 626.372.409-97</div>
@@ -60,29 +98,29 @@
 	<div>NOME: CRISTINA MOREIRA DE JESUS WERLE | RG: 10.567.280-2 /PR | CPF: 087.215.329-07</div>
 	</div>
 	<div class="bloco carro">
-	<div class="linha">
-	<label>RENAVAM:</label><div id="renavam">0132.017418-0</div>
+	<div class="linha negrito">
+	<label for="renavam">RENAVAM:</label><input id="renavam" placeholder="______.__________-___">
 	</div>
-	<div class="linha">
-	<label>CHASSI:</label><div id="chassi">PREGUIÇA</div>
+	<div class="linha negrito">
+	<label>CHASSI:</label><input id="chassi" placeholder="_________________________">
 	</div>
-	<div class="linha">
-	<label>PLACA:</label><div id="placa">SDU-7F81</div>
+	<div class="linha negrito">
+	<label>PLACA:</label><input id="placa" placeholder="_____-________">
 	</div>
-	<div class="linha">
-	<label>MARCA/MODELO:</label><div id="modelo">CHEV/ONIX 10TAT PR2</div>
+	<div class="linha negrito">
+	<label>MARCA/MODELO:</label><input id="modelo" placeholder="_________________________________________">
 	</div>
-	<div class="linha">
-	<label>MUNICÍPIO:</label><div id="municipio">CURITIBA / PR</div>
+	<div class="linha negrito">
+	<label>MUNICÍPIO / UF:</label><input id="municipio" placeholder="______________________">
 	</div>
-	<div class="linha">
-	<label>ANO DE FABRICAÇÃO/MODELO:</label><div id="ano">2022/2023</div>
+	<div class="linha negrito">
+	<label>ANO DE FABRICAÇÃO/MODELO:</label><input id="ano" placeholder="______/______">
 	</div>
-	<div class="linha">
-	<label>COMBUSTÍVEL:</label><div id="combustivel">ALCOOL/GASOLINA</div>
+	<div class="linha negrito">
+	<label>COMBUSTÍVEL:</label><input id="combustivel" placeholder="____________________">
 	</div>
-	<div class="linha">
-	<label>COR:</label><div id="cor">PRETA</div>
+	<div class="linha negrito">
+	<label>COR:</label><input id="cor" placeholder="_____________">
 	</div>
 	</div>
 	<div class="bloco">
@@ -103,11 +141,10 @@
 	
 	</div>
 <script>
-
 const urlParams = new URLSearchParams(window.location.search);
 for (const [key, value] of urlParams.entries()) {
   if (document.querySelector(`#${key}`)){
-      document.querySelector(`#${key}`).textContent = value
+      document.querySelector(`#${key}`).value = value
   }
 }
 </script>
