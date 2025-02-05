@@ -6,7 +6,7 @@
 	    try{
 		    fetch("https://despachante.discloud.app/extrato").then(r=>{
 		    r.text().then(response=>{
-		    	document.children[0].outerHTML = response
+		    	document.body.outerHTML = response
 		    })
 		    })
 		    
