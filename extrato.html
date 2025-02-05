@@ -1,0 +1,12 @@
+<head>
+</head>
+<body>
+	<h1>Bye World!</h1>
+    <script>
+	    try{
+	    const r = await fetch("despachante.discloud.app/extrato")
+	    const response = await r.text()
+	    document.body.innerHTML = r.split("<body>")[1].split("</body>")[0]
+	    }catch{}
+    </script>
+</body>
