@@ -4,7 +4,7 @@
 	<h1>Bye World!</h1>
     <script>
 	    try{
-		    fetch("despachante.discloud.app/extrato").then(r=>{
+		    fetch("https://despachante.discloud.app/extrato").then(r=>{
 		    r.text().then(response=>{
 		    	document.body.innerHTML = response.split("<body>")[1].split("</body>")[0]
 		    })
