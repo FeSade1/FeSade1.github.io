@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tour Curitiba - Roleta de Escolha</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom, #01263c, #20435c);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+      color: #FFD700;
+    }
+
+    p {
+      margin-bottom: 30px;
+      font-size: 1.2em;
+      text-align: center;
+    }
+
+    #roleta {
+      background-color: #FFD700;
+      color: #01263c;
+      border: 8px solid #fff;
+      border-radius: 15px;
+      width: 300px;
+      height: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 1.4em;
+      font-weight: bold;
+      padding: 20px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    button {
+      margin-top: 30px;
+      padding: 15px 30px;
+      font-size: 1.1em;
+      font-weight: bold;
+      color: #01263c;
+      background-color: #FFD700;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background-color: #e6c200;
+    }
+
+    footer {
+      margin-top: 50px;
+      font-size: 0.9em;
+      color: #ccc;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Tour O Que Fazer Curitiba</h1>
+  <p>Felipe e Nanda, girem a roleta e descubram onde será a próxima aventura gastronômica!</p>
+
+  <div id="roleta">Clique em "Girar" para escolher!</div>
+
+  <button onclick="girarRoleta()">Girar</button>
+
+  <footer>&copy; 2025 - Tour Curitiba com Felipe e Nanda</footer>
+
+  <script>
+    const opcoes = [
+      "Vá a um lugar com uma culinária que nunca experimentaram",
+      "Vá a um lugar com a culinária preferida de Felipe",
+      "Vá a um lugar com a culinária preferida de Nanda",
+      "Se deu mal! Felipe escolhe o lugar",
+      "Se deu mal! Nanda escolhe o lugar",
+      "Escolham um lugar com sobremesa especial",
+      "Escolham o restaurante mais próximo de vocês agora",
+      "Escolham o restaurante mais longe do bloquinho",
+      "Vão em um lugar com música ao vivo",
+      "Escolham um lugar com ambiente ao ar livre",
+      "Escolham um lugar com cardápio vegetariano (mesmo que não sejam)",
+      "Experimentem uma culinária de outro país",
+      "Comam algo com muito queijo!",
+      "Lugar mais romântico do bloquinho",
+      "Vá a um lugar com frutos do mar",
+      "Vão ao lugar que pareça mais excêntrico",
+      "Escolham um que tenha drinks diferentes",
+      "Vão ao que tem o nome mais engraçado",
+      "Escolham um lugar que sirva café ou sobremesas com café",
+      "Procurem um restaurante que tenha uma vista bonita",
+      "Escolham um restaurante que abre à noite",
+      "Vá ao que pareça mais antigo",
+      "Escolham um com decoração mais curiosa",
+      "Vá ao que tem o cardápio mais curto",
+      "Escolham um restaurante que use ingredientes regionais",
+      "Escolham o lugar com a fachada mais bonita",
+      "Vá em um que tenha mesas externas",
+      "Vá em um que tenha buffet ou rodízio",
+      "Escolham um restaurante em bairro que raramente visitam",
+      "Escolham um restaurante que fique perto de um parque",
+      "Vá em um lugar que tenha opção de prato com massa",
+      "Escolham um que ofereça menu do dia",
+      "Vão no restaurante que vocês menos lembram de ter lido sobre",
+      "Escolham pelo nome mais sofisticado",
+      "Escolham o que tenha a ilustração mais bonita no bloquinho",
+      "Escolham um que parece bom para brunch",
+      "Procurem um restaurante com algum toque artesanal no cardápio",
+      "Escolham um com pratos para compartilhar",
+      "Escolham um restaurante que fica em uma rua que vocês gostam"
+    ];
+
+    function girarRoleta() {
+      const index = Math.floor(Math.random() * opcoes.length);
+      const escolha = opcoes[index];
+      document.getElementById("roleta").textContent = escolha;
+    }
+  </script>
+
+</body>
+</html>
