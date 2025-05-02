@@ -7,128 +7,178 @@
   <style>
     body {
       margin: 0;
+      padding: 0;
       font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to bottom, #01263c, #20435c);
-      color: #fff;
+      background: url("link-aqui") no-repeat center center fixed;
+      background-size: cover;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       min-height: 100vh;
-      padding: 20px;
+      overflow-x: hidden;
     }
 
     h1 {
-      font-size: 2.5em;
-      margin-bottom: 10px;
-      color: #FFD700;
+      margin-top: 20px;
+      font-size: 2em;
+      color: #fff;
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
+      text-align: center;
     }
 
-    p {
-      margin-bottom: 30px;
-      font-size: 1.2em;
-      text-align: center;
+    #roleta-container {
+      position: relative;
+      width: 300px;
+      height: 300px;
+      margin-top: 30px;
     }
 
     #roleta {
-      background-color: #FFD700;
-      color: #01263c;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
       border: 8px solid #fff;
-      border-radius: 15px;
-      width: 300px;
-      height: 300px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      font-size: 1.4em;
-      font-weight: bold;
-      padding: 20px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 0 15px rgba(0,0,0,0.4);
+      transition: transform 5s cubic-bezier(0.33, 1, 0.68, 1);
     }
 
-    button {
+    #ponteiro {
+      position: absolute;
+      top: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 15px solid transparent;
+      border-right: 15px solid transparent;
+      border-bottom: 30px solid #fff;
+      z-index: 10;
+    }
+
+    #botao-girar {
       margin-top: 30px;
       padding: 15px 30px;
-      font-size: 1.1em;
+      font-size: 1.2em;
       font-weight: bold;
-      color: #01263c;
-      background-color: #FFD700;
+      background-color: #fff;
+      color: #333;
       border: none;
-      border-radius: 8px;
+      border-radius: 10px;
       cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
       transition: background 0.3s;
     }
 
-    button:hover {
-      background-color: #e6c200;
+    #botao-girar:hover {
+      background-color: #eee;
     }
 
     footer {
-      margin-top: 50px;
+      margin-top: 40px;
       font-size: 0.9em;
-      color: #ccc;
+      color: #fff;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+      text-align: center;
     }
   </style>
 </head>
 <body>
 
   <h1>Tour O Que Fazer Curitiba</h1>
-  <p>Felipe e Nanda, girem a roleta e descubram onde será a próxima aventura gastronômica!</p>
 
-  <div id="roleta">Clique em "Girar" para escolher!</div>
+  <div id="roleta-container">
+    <div id="ponteiro"></div>
+    <canvas id="roleta"></canvas>
+  </div>
 
-  <button onclick="girarRoleta()">Girar</button>
+  <button id="botao-girar" onclick="girarRoleta()">Girar</button>
 
-  <footer>&copy; 2025 - Tour Curitiba com Felipe e Nanda</footer>
+  <footer>Felipe & Nanda - Viva o sabor do desconhecido!</footer>
 
   <script>
     const opcoes = [
-      "Vá a um lugar com uma culinária que nunca experimentaram",
-      "Vá a um lugar com a culinária preferida de Felipe",
-      "Vá a um lugar com a culinária preferida de Nanda",
-      "Se deu mal! Felipe escolhe o lugar",
-      "Se deu mal! Nanda escolhe o lugar",
-      "Escolham um lugar com sobremesa especial",
-      "Escolham o restaurante mais próximo de vocês agora",
-      "Escolham o restaurante mais longe do bloquinho",
-      "Vão em um lugar com música ao vivo",
-      "Escolham um lugar com ambiente ao ar livre",
-      "Escolham um lugar com cardápio vegetariano (mesmo que não sejam)",
-      "Experimentem uma culinária de outro país",
-      "Comam algo com muito queijo!",
-      "Lugar mais romântico do bloquinho",
-      "Vá a um lugar com frutos do mar",
-      "Vão ao lugar que pareça mais excêntrico",
-      "Escolham um que tenha drinks diferentes",
-      "Vão ao que tem o nome mais engraçado",
-      "Escolham um lugar que sirva café ou sobremesas com café",
-      "Procurem um restaurante que tenha uma vista bonita",
-      "Escolham um restaurante que abre à noite",
-      "Vá ao que pareça mais antigo",
-      "Escolham um com decoração mais curiosa",
-      "Vá ao que tem o cardápio mais curto",
-      "Escolham um restaurante que use ingredientes regionais",
-      "Escolham o lugar com a fachada mais bonita",
-      "Vá em um que tenha mesas externas",
-      "Vá em um que tenha buffet ou rodízio",
-      "Escolham um restaurante em bairro que raramente visitam",
-      "Escolham um restaurante que fique perto de um parque",
-      "Vá em um lugar que tenha opção de prato com massa",
-      "Escolham um que ofereça menu do dia",
-      "Vão no restaurante que vocês menos lembram de ter lido sobre",
-      "Escolham pelo nome mais sofisticado",
-      "Escolham o que tenha a ilustração mais bonita no bloquinho",
-      "Escolham um que parece bom para brunch",
-      "Procurem um restaurante com algum toque artesanal no cardápio",
-      "Escolham um com pratos para compartilhar",
-      "Escolham um restaurante que fica em uma rua que vocês gostam"
+      "Culinária que nunca experimentaram",
+      "Culinária preferida do Felipe",
+      "Culinária preferida da Nanda",
+      "Felipe escolhe!",
+      "Nanda escolhe!",
+      "Com sobremesa especial",
+      "Mais próximo de vocês",
+      "Mais longe do bloquinho",
+      "Com música ao vivo",
+      "Ambiente ao ar livre",
+      "Vegetariano (por desafio!)",
+      "De outro país",
+      "Com muito queijo!",
+      "Mais romântico",
+      "Frutos do mar",
+      "Mais excêntrico",
+      "Com drinks diferentes",
+      "Nome mais engraçado",
+      "Tem café na jogada",
+      "Vista bonita",
+      "Abre à noite",
+      "Mais antigo",
+      "Decoração curiosa",
+      "Cardápio curto",
+      "Com ingredientes regionais",
+      "Fachada mais bonita",
+      "Mesas externas",
+      "Rodízio ou buffet",
+      "Bairro fora do comum",
+      "Perto de parque",
+      "Prato com massa",
+      "Menu do dia",
+      "Quase esquecidos do bloquinho",
+      "Nome sofisticado",
+      "Ilustração mais bonita",
+      "Bom pra brunch",
+      "Toque artesanal",
+      "Pratos para compartilhar",
+      "Rua favorita"
     ];
 
+    const canvas = document.getElementById("roleta");
+    const ctx = canvas.getContext("2d");
+    const tamanho = 300;
+    canvas.width = tamanho;
+    canvas.height = tamanho;
+
+    const numOpcoes = opcoes.length;
+    const angulo = 2 * Math.PI / numOpcoes;
+
+    function desenharRoleta() {
+      for (let i = 0; i < numOpcoes; i++) {
+        const start = i * angulo;
+        const end = start + angulo;
+        ctx.beginPath();
+        ctx.moveTo(tamanho/2, tamanho/2);
+        ctx.arc(tamanho/2, tamanho/2, tamanho/2, start, end);
+        ctx.fillStyle = i % 2 === 0 ? "#FEC601" : "#FF5733";
+        ctx.fill();
+        ctx.save();
+        ctx.translate(tamanho/2, tamanho/2);
+        ctx.rotate(start + angulo/2);
+        ctx.fillStyle = "#000";
+        ctx.font = "12px sans-serif";
+        ctx.textAlign = "right";
+        ctx.fillText(opcoes[i], tamanho/2 - 10, 4);
+        ctx.restore();
+      }
+    }
+
+    desenharRoleta();
+
+    let anguloAtual = 0;
+
     function girarRoleta() {
-      const index = Math.floor(Math.random() * opcoes.length);
-      const escolha = opcoes[index];
-      document.getElementById("roleta").textContent = escolha;
+      const voltas = Math.floor(Math.random() * 3) + 4;
+      const destino = Math.floor(Math.random() * numOpcoes);
+      const novoAngulo = 360 * voltas + (360 / numOpcoes) * destino + (360 / numOpcoes) / 2;
+      anguloAtual += novoAngulo;
+
+      canvas.style.transform = `rotate(${anguloAtual}deg)`;
     }
   </script>
 
