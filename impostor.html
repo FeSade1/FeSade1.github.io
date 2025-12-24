@@ -21,6 +21,11 @@
             user-select: none; /* Evita seleção de texto para não dar spoiler */
         }
 
+        html, body {
+          touch-action: manipulation;
+        }
+
+
         body {
             font-family: 'Nunito', sans-serif;
             background-color: #A0D2EB;
@@ -214,12 +219,85 @@
 
     <script>
         // --- CONFIGURAÇÃO E DADOS ---
-        const words = [
-            "Astronauta", "Tempestade", "Indiana Jones", "Corte de Cabelo", 
-            "Pinguim", "Microondas", "Titanic", "Abacaxi", 
-            "Dentista", "Sereia", "Guitarra", "Vampiro", 
-            "Wifi", "Cachorro Quente", "Múmia", "Youtube",
-            "Piscina", "Carnaval", "Zumbi", "Foguete"
+                const words = [
+            // Objetos e Coisas Aleatórias
+            "Abajur", "Algemas", "Anão de Jardim", "Âncora", "Apito", "Aquário", 
+            "Aspirador de Pó", "Bafômetro", "Balão", "Batom", "Bengala", "Berço", 
+            "Berrante", "Bíblia", "Bigode", "Binóculo", "Boia", "Bola de Cristal", 
+            "Boneca", "Boomerang", "Botijão de Gás", "Brinco", "Bússola", "Cachimbo", 
+            "Cacto", "Cadeado", "Caixão", "Calculadora", "Cama Elástica", "Camisinha", 
+            "Canivete", "Capacete", "Carimbo", "Cartola", "Catapulta", "Cerca Elétrica", 
+            "Chupeta", "Cofre", "Colher", "Cone de Trânsito", "Confete", "Coroa", 
+            "Cotonete", "Crachá", "Crucifixo", "Dado", "Dentadura", "Desentupidor", 
+            "Despertador", "Diário", "Dinamite", "Durex", "Escada", "Escova de Dentes", 
+            "Espantalho", "Espelho", "Estátua", "Estilingue", "Extintor", "Faqueiro", 
+            "Ferradura", "Fita Cassete", "Foguete", "Fones de Ouvido", "Fralda", 
+            "Frigideira", "Furadeira", "Gaiola", "Gaita de Fole", "Geladeira", 
+            "Guarda-Chuva", "Guilhotina", "Haltere", "Harpa", "Helicóptero", "Hidrante", 
+            "Holofote", "Iglu", "Isqueiro", "Jornal", "Lampião", "Lanterna", "Lápide", 
+            "Liquidificador", "Lixo", "Lupa", "Maio", "Manequim", "Mamadeira", 
+            "Mapa", "Máscara", "Martelo", "Medalha", "Megafone", "Microfone", 
+            "Microscópio", "Múmia", "Navio Pirata", "Nebulizador", "Novelo de Lã", 
+            "Óculos 3D", "Ovo de Páscoa", "Pá", "Paraquedas", "Peruca", "Peteca", 
+            "Piano", "Pilha", "Pinhão", "Pipa", "Pirâmide", "Piscina de Bolinhas", 
+            "Pneu", "Pochete", "Poço", "Portal", "Prancha de Surf", "Presépio", 
+            "Projetor", "Pulseira", "Quebra-Cabeça", "Rádio", "Ratoeira", "Rede de Pesca", 
+            "Relógio de Cuco", "Retrovisor", "Robô", "Roleta", "Sabre de Luz", 
+            "Saco de Lixo", "Saleiro", "Sarcófago", "Satélite", "Saxofone", 
+            "Secador de Cabelo", "Semáforo", "Seringa", "Serrote", "Sino", "Skate", 
+            "Sofá", "Sombra", "Sunga", "Tabuleiro Ouija", "Tapete Voador", "Tatuagem", 
+            "Teia de Aranha", "Telescópio", "Televisão", "Termômetro", "Tesoura", 
+            "Tijolo", "Trampolim", "Travesseiro", "Tridente", "Trono", "Turbina", 
+            "UFO", "Urna Eleitoral", "Vaso Sanitário", "Vassoura", "Vela", 
+            "Ventilador", "Violino", "Vulcão", "Walkie-Talkie", "Webcam", "Wi-Fi", 
+            "Xadrez", "Zepelim",
+
+            // Comidas
+            "Abacaxi", "Acarajé", "Algodão Doce", "Bacon", "Banana", "Batata Frita", 
+            "Bolo de Cenoura", "Brigadeiro", "Brócolis", "Café", "Camarão", "Cebola", 
+            "Churrasco", "Coca-Cola", "Coco", "Coxinha", "Croissant", "Cupcake", 
+            "Doce de Leite", "Espaguete", "Feijoada", "Hambúrguer", "Ketchup", 
+            "Lasanha", "Limão", "Macarrão Instantâneo", "Maionese", "Melancia", 
+            "Milho", "Mostarda", "Omelete", "Paçoca", "Pamonha", "Panqueca", 
+            "Pão de Queijo", "Pastel", "Pepino", "Picanha", "Picles", "Pipoca", 
+            "Pizza", "Pudim", "Queijo", "Salada", "Salsicha", "Sorvete", "Sushi", 
+            "Taco", "Tapioca", "Tofu", "Tomate", "Torrada", "Uva", "Vinagre",
+
+            // Animais e Seres
+            "Abelha", "Águia", "Alce", "Alien", "Anta", "Aranha", "Avestruz", 
+            "Baleia", "Barata", "Bicho-Preguiça", "Borboleta", "Bufalo", "Cachorro", 
+            "Camelo", "Canguru", "Capivara", "Caranguejo", "Castor", "Cavalo Marinho", 
+            "Centauro", "Chimpanzé", "Cobra", "Coelho", "Coruja", "Crocodilo", 
+            "Dinossauro", "Dragão", "Elefante", "Esquilo", "Fada", "Fantasma", 
+            "Flamingo", "Foca", "Formiga", "Galinha", "Gambá", "Gato", "Girafa", 
+            "Golfinho", "Gorila", "Grilo", "Guaxinim", "Hamster", "Hipopótamo", 
+            "Hiena", "Iguana", "Jacaré", "Joaninha", "Lagarto", "Leão", "Lêmure", 
+            "Lobisomem", "Lula", "Macaco", "Minhoca", "Morcego", "Mosquito", 
+            "Narval", "Onça", "Ornitorrinco", "Ovelha", "Panda", "Papagaio", 
+            "Pato", "Pavão", "Peixe-Palhaço", "Pinguim", "Polvo", "Pombo", 
+            "Porco-Espinho", "Raposa", "Rato", "Rinoceronte", "Saci", "Sapo", 
+            "Sereia", "Tartaruga", "Tatu", "Texugo", "Tigre", "Tiranossauro Rex", 
+            "Tubarão", "Tucano", "Unicórnio", "Urso Polar", "Vaca", "Vaga-lume", 
+            "Vampiro", "Zebra", "Zumbi",
+
+            // Lugares
+            "Aeroporto", "Antártida", "Biblioteca", "Cassino", "Castelo", "Caverna", 
+            "Cemitério", "Cinema", "Circo", "Deserto", "Escola", "Estádio", 
+            "Farmácia", "Floresta", "Hospital", "Hotel", "Igreja", "Ilha Deserta", 
+            "Laboratório", "Lua", "Marte", "Museu", "Padaria", "Parque de Diversões", 
+            "Polo Norte", "Praia", "Prisão", "Restaurante", "Sauna", "Shopping", 
+            "Supermercado", "Teatro", "Zoológico",
+
+            // Personagens e Profissões
+            "Astronauta", "Batman", "Bombeiro", "Bruxa", "Ciborgue", "Coringa", 
+            "Detetive", "Drácula", "Einstein", "Elvis Presley", "Espião", "Frankenstein", 
+            "Gari", "Harry Potter", "Homem de Ferro", "Homem-Aranha", "Hulk", 
+            "Indiana Jones", "Jesus", "Juiz", "Ladrão", "Mágico", "Marilyn Monroe", 
+            "Mario Bros", "Médico", "Mergulhador", "Mickey Mouse", "Minion", "Mímico", 
+            "Monalisa", "Ninja", "Papai Noel", "Palhaço", "Papa", "Pikachu", 
+            "Piloto", "Pirata", "Policial", "Presidente", "Princesa", "Professor", 
+            "Samurai", "Sherlock Holmes", "Shrek", "Soldado", "Super-Homem", 
+            "Tarzan", "Thor", "Viking", "Yoda"
         ];
 
         let totalPlayers = 3;
