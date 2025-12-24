@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quem é o Impostor?</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #3C9AF5; /* Azul Gartic */
+            --secondary: #FFC906; /* Amarelo Pop */
+            --danger: #FF5252; /* Vermelho Impostor */
+            --dark: #333333;
+            --light: #FFFFFF;
+            --shadow: 4px 4px 0px rgba(0,0,0,0.2);
+            --border: 3px solid #333;
+        }
+
+        * {
+            box-sizing: border-box;
+            user-select: none; /* Evita seleção de texto para não dar spoiler */
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #A0D2EB;
+            background-image: radial-gradient(#ffffff 20%, transparent 20%);
+            background-size: 20px 20px;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: var(--dark);
+        }
+
+        .container {
+            background: var(--light);
+            width: 90%;
+            max-width: 400px;
+            padding: 30px;
+            border-radius: 20px;
+            border: var(--border);
+            box-shadow: 8px 8px 0px rgba(0,0,0,0.15);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        h1, h2 {
+            font-family: 'Fredoka One', cursive;
+            color: var(--primary);
+            margin-top: 0;
+            text-shadow: 2px 2px 0px #eee;
+        }
+
+        /* Telas */
+        .screen {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        /* Controles de Jogadores */
+        .counter-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 40px 0;
+            gap: 20px;
+        }
+
+        .count-display {
+            font-family: 'Fredoka One', cursive;
+            font-size: 3rem;
+            width: 80px;
+        }
+
+        .btn-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: var(--border);
+            background: var(--secondary);
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: transform 0.1s;
+        }
+
+        .btn-circle:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px rgba(0,0,0,0.2);
+        }
+
+        /* Botão Principal */
+        .btn-main {
+            width: 100%;
+            padding: 15px;
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.5rem;
+            color: white;
+            background: var(--primary);
+            border: var(--border);
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            margin-top: 20px;
+            text-transform: uppercase;
+        }
+
+        .btn-main:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px rgba(0,0,0,0.2);
+        }
+
+        /* Estilos da Tela de Jogo */
+        .player-header {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #777;
+            margin-bottom: 30px;
+        }
+
+        .card-reveal {
+            background: #f4f4f4;
+            border: 2px dashed #ccc;
+            border-radius: 15px;
+            padding: 30px 10px;
+            margin-bottom: 30px;
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .secret-word {
+            font-family: 'Fredoka One', cursive;
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        .secret-desc {
+            font-size: 1rem;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        /* Estados de Borrão e Revelação */
+        .blur-content {
+            filter: blur(8px);
+            opacity: 0.5;
+            user-select: none;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+
+        .revealed .blur-content {
+            filter: blur(0);
+            opacity: 1;
+        }
+
+        .impostor-mode .secret-word {
+            color: var(--danger);
+        }
+        
+        .impostor-mode {
+            border-color: var(--danger);
+            background-color: #FFF0F0;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div id="setup-screen" class="screen active">
+            <h1>NOVO JOGO</h1>
+            <p>Quantos jogadores?</p>
+            
+            <div class="counter-wrapper">
+                <button class="btn-circle" onclick="adjustPlayers(-1)">-</button>
+                <div class="count-display" id="player-count">3</div>
+                <button class="btn-circle" onclick="adjustPlayers(1)">+</button>
+            </div>
+
+            <button class="btn-main" onclick="startGame()">JOGAR</button>
+        </div>
+
+        <div id="game-screen" class="screen">
+            <div class="player-header" id="player-header">Jogador 1</div>
+
+            <div class="card-reveal" id="card-area">
+                <div class="blur-content" id="secret-content">
+                    <div class="secret-word" id="word-label">XXXXX</div>
+                    <div class="secret-desc" id="desc-label">Lorem ipsum dolor sit amet.</div>
+                </div>
+            </div>
+
+            <button class="btn-main" id="action-btn" onclick="handleAction()">EXIBIR</button>
+        </div>
+    </div>
+
+    <script>
+        // --- CONFIGURAÇÃO E DADOS ---
+        const words = [
+            "Astronauta", "Tempestade", "Indiana Jones", "Corte de Cabelo", 
+            "Pinguim", "Microondas", "Titanic", "Abacaxi", 
+            "Dentista", "Sereia", "Guitarra", "Vampiro", 
+            "Wifi", "Cachorro Quente", "Múmia", "Youtube",
+            "Piscina", "Carnaval", "Zumbi", "Foguete"
+        ];
+
+        let totalPlayers = 3;
+        let currentPlayerIndex = 0;
+        let impostorIndex = 0;
+        let currentWord = "";
+        let isRevealed = false; // Controla se o botão atual é "Exibir" ou "Próximo"
+
+        // Elementos DOM
+        const setupScreen = document.getElementById('setup-screen');
+        const gameScreen = document.getElementById('game-screen');
+        const countDisplay = document.getElementById('player-count');
+        const playerHeader = document.getElementById('player-header');
+        const cardArea = document.getElementById('card-area');
+        const secretContent = document.getElementById('secret-content');
+        const wordLabel = document.getElementById('word-label');
+        const descLabel = document.getElementById('desc-label');
+        const actionBtn = document.getElementById('action-btn');
+
+        // --- FUNÇÕES DE SETUP ---
+
+        function adjustPlayers(amount) {
+            totalPlayers += amount;
+            if (totalPlayers < 3) totalPlayers = 3;
+            if (totalPlayers > 20) totalPlayers = 20;
+            countDisplay.innerText = totalPlayers;
+        }
+
+        function startGame() {
+            // Resetar variáveis
+            currentPlayerIndex = 0;
+            isRevealed = false;
+            
+            // Escolher palavra e impostor
+            currentWord = words[Math.floor(Math.random() * words.length)];
+            impostorIndex = Math.floor(Math.random() * totalPlayers);
+
+            // Preparar UI
+            updateGameUI();
+            
+            // Trocar tela
+            setupScreen.classList.remove('active');
+            gameScreen.classList.add('active');
+        }
+
+        // --- LÓGICA DO JOGO ---
+
+        function updateGameUI() {
+            // Reseta visual para o estado "oculto"
+            cardArea.classList.remove('revealed', 'impostor-mode');
+            secretContent.classList.remove('revealed'); // Garante o borrão
+            
+            // Textos padrão borrados (placeholders)
+            wordLabel.innerText = "SEGREDO";
+            descLabel.innerText = "Toque em exibir para ver sua função.";
+            
+            // Atualiza cabeçalho e botão
+            playerHeader.innerText = `Jogador ${currentPlayerIndex + 1}`;
+            actionBtn.innerText = "EXIBIR";
+            actionBtn.style.backgroundColor = "var(--primary)"; // Azul
+            
+            isRevealed = false;
+        }
+
+        function handleAction() {
+            if (!isRevealed) {
+                revealSecret();
+            } else {
+                nextPlayer();
+            }
+        }
+
+        function revealSecret() {
+            // Remove o borrão
+            cardArea.classList.add('revealed');
+            secretContent.classList.add('revealed');
+
+            // Verifica se é o impostor
+            if (currentPlayerIndex === impostorIndex) {
+                cardArea.classList.add('impostor-mode');
+                wordLabel.innerText = "IMPOSTOR";
+                descLabel.innerText = "Sua função é se misturar e descobrir a palavra antes que te descubram.";
+            } else {
+                wordLabel.innerText = currentWord;
+                descLabel.innerText = "Sua função é mostrar que é inocente para seus aliados, sem entregar qual é a palavra.";
+            }
+
+            // Muda o estado do botão
+            isRevealed = true;
+            
+            // Verifica se é o último jogador para mudar o texto do botão
+            if (currentPlayerIndex >= totalPlayers - 1) {
+                actionBtn.innerText = "INICIAR JOGO";
+                actionBtn.style.backgroundColor = "var(--secondary)"; // Amarelo para destaque final
+                actionBtn.style.color = "var(--dark)";
+            } else {
+                actionBtn.innerText = "PRÓXIMO JOGADOR";
+                actionBtn.style.backgroundColor = "#4CAF50"; // Verde
+            }
+        }
+
+        function nextPlayer() {
+            // Se for o último jogador, reinicia para o setup
+            if (currentPlayerIndex >= totalPlayers - 1) {
+                gameScreen.classList.remove('active');
+                setupScreen.classList.add('active');
+                return;
+            }
+
+            // Se não, avança para o próximo
+            currentPlayerIndex++;
+            updateGameUI();
+        }
+    </script>
+</body>
+</html>
