@@ -89642,7 +89642,7 @@ return B.c.b5(r,s)},
 $S:555}
 A.oS.prototype={
 an(){var s=t.s
-return new A.Rh(A.t(t.N,t.Qq),A.c([new A.ii("Processos",B.Fw,A.c(["Situa\xe7\xe3o","Monitor"],s)),new A.ii("Ve\xedculos",B.FB,A.c(["Extrato","Licenciamento","Vistoria","Placa dispon\xedvel"],s)),new A.ii("Pessoas",B.FI,A.c(["Consulta"],s)),new A.ii("Documentos",B.FA,A.c(["ATPV-E","Procura\xe7\xf5es","Declara\xe7\xf5es"],s)),new A.ii("Materiais",B.FJ,A.c(["Solicita\xe7\xf5es"],s)),new A.ii("Motoboy",B.FN,A.c(["Agendamentos"],s)),new A.ii("Utilidades",B.FE,A.c(["PDF"],s))],t.x1))}}
+return new A.Rh(A.t(t.N,t.Qq),A.c([new A.ii("Processos",B.Fw,A.c(["Situa\xe7\xe3o","Monitor"],s)),new A.ii("Ve\xedculos",B.FB,A.c(["Extrato","Vistoria","Placa dispon\xedvel"],s)),new A.ii("Pessoas",B.FI,A.c(["Consulta"],s)),new A.ii("Documentos",B.FA,A.c(["ATPV-E","Procura\xe7\xf5es","Declara\xe7\xf5es"],s)),new A.ii("Materiais",B.FJ,A.c(["Solicita\xe7\xf5es"],s)),new A.ii("Motoboy",B.FN,A.c(["Agendamentos"],s)),new A.ii("Utilidades",B.FE,A.c(["PDF"],s))],t.x1))}}
 A.Rh.prototype={
 a8u(a){switch(this.d.toLowerCase()){case"config":return new A.Pi(null)
 case"ve\xedculos_extrato":return new A.zd(a,null)
@@ -89709,7 +89709,7 @@ $S:560}
 A.ii.prototype={}
 A.zd.prototype={
 an(){var s=t.Tj
-return new A.EE(A.c([new A.eo("10/01/2026","ABC-1234","123456789","9BGEA48H0SR387803.","Logan 1.0",2010,"D4D..."),new A.eo("12/01/2026","XYZ-9876","987654321","8AWYYY...","Civic",2022,"R18..."),new A.eo("05/01/2026","AAA-0000","111222333","7CYXXX...","Fusca",1980,"BJ..."),new A.eo("11/01/2026","BBB-1111","444555666","6BVVVV...","Gol",2015,"EA111..."),new A.eo("15/01/2026","CCC-2222","777888999","5BUUUU...","Uno",2012,"FIRE..."),new A.eo("20/01/2026","DDD-3333","000111222","4BTTTT...","Palio",2018,"EVO..."),new A.eo("25/01/2026","EEE-4444","333444555","3BSSSS...","Onix",2020,"SPE/4...")],s),A.c([],s),A.c(["DATA ADI\xc7\xc3O","PLACA","RENAVAM","CHASSI","MODELO","ANO","MOTOR"],t.s))}}
+return new A.EE(A.c([new A.eo("10/01/2026","ABC-1234","123456789","9BGEA48H0SR387803","Logan 1.0",2010,"D4D..."),new A.eo("12/01/2026","XYZ-9876","987654321","8AWYYY...","Civic",2022,"R18..."),new A.eo("05/01/2026","AAA-0000","111222333","7CYXXX...","Fusca",1980,"BJ..."),new A.eo("11/01/2026","BBB-1111","444555666","6BVVVV...","Gol",2015,"EA111..."),new A.eo("15/01/2026","CCC-2222","777888999","5BUUUU...","Uno",2012,"FIRE..."),new A.eo("20/01/2026","DDD-3333","000111222","4BTTTT...","Palio",2018,"EVO..."),new A.eo("25/01/2026","EEE-4444","333444555","3BSSSS...","Onix",2020,"SPE/4...")],s),A.c([],s),A.c(["DATA ADI\xc7\xc3O","PLACA","RENAVAM","CHASSI","MODELO","ANO","MOTOR"],t.s))}}
 A.EE.prototype={
 au(){this.aN()
 this.r=A.h2(this.f,!0,t.U8)},
@@ -89735,7 +89735,7 @@ for(k=h.w,j=h.gadT(),i=0;i<7;++i)l[i]=new A.jP(A.dU(k[i],g,g,g,B.ig,g,g),g,!1,j,
 k=h.r
 j=A.Y(k).h("a9<1,jQ>")
 k=A.a6(new A.a9(k,new A.an5(),j),j.h("aA.E"))
-f=A.i3(A.c([f,e,d,s,A.Li(A.fQ(g,A.aAh(o,new A.Kr(1000,60,l,n,m,g,g,new A.b3(new A.an6(),t.b),g,g,g,new A.bi(B.mV,t.rc),50,g,20,20,!0,k,g,!1,g,B.B,A.aKS(l),g)),B.B,g,g,new A.dZ(B.k,g,q,r,p,g,g,B.aR),g,g,g,g,g,g,g))],c),B.a0,B.a8,B.aH)
+f=A.i3(A.c([f,e,d,s,A.Li(A.fQ(g,A.aAh(o,new A.Kr(1350,60,l,n,m,g,g,new A.b3(new A.an6(),t.b),g,g,g,new A.bi(B.mV,t.rc),50,g,20,20,!0,k,g,!1,g,B.B,A.aKS(l),g)),B.B,g,g,new A.dZ(B.k,g,q,r,p,g,g,B.aR),g,g,g,g,g,g,g))],c),B.a0,B.a8,B.aH)
 if(h.a.c){e=A.lw(B.Fv,g,g,g)
 e=new A.Lr(e,new A.an7(),B.WI,g)}else e=g
 return A.af5(g,g,new A.cE(B.ES,f,g),g,e)}}
