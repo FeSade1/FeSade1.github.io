@@ -104676,7 +104676,7 @@ g=i[1]
 f=i[2]
 e=[400*h/(h+27.13),400*g/(g+27.13),400*f/(f+27.13)]
 return new A.aoT(k,(40*e[0]+20*e[1]+e[2])/20*j,j,j,b,1,q,l,A.KA(l,0.25),1.48+p)})
-s($,"b2G","aBB",()=>{var q=new A.a3u(),p=A.aRl("http://localhost:8080",B.og,A.az(["withCredentials",!0],t.N,t.z),B.og),o=A.aMR(),n=new A.OL(A.b([B.CJ],A.aw("y<hX?>")))
+s($,"b2G","aBB",()=>{var q=new A.a3u(),p=A.aRl("https://ships-tide-motherboard-differences.trycloudflare.com/",B.og,A.az(["withCredentials",!0],t.N,t.z),B.og),o=A.aMR(),n=new A.OL(A.b([B.CJ],A.aw("y<hX?>")))
 n.S(n,B.K0)
 n=new A.a6Z(o,n,A.aMR(),new A.aaA(51200),!1)
 n.YK$=p
