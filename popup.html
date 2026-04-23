@@ -249,6 +249,15 @@
   </div>
 
   <script>
+    let currentHost = "";
+
+    window.addEventListener("message", (event) => {
+      if (event.data.type === "HOST") {
+        currentHost = event.data.host;
+      }
+    });
+
+    
     let current = 'atalhos';
 
     const municipios = [
@@ -308,7 +317,7 @@
     }
 
     function checkDomain() {
-      if (!window.location.hostname.includes("veiculo.detran.pr.gov.br")) {
+      if (!currentHost.includes("veiculo.detran.pr.gov.br")) {
         alert("Este recurso só funciona no site do Detran PR.");
         return false;
       }
