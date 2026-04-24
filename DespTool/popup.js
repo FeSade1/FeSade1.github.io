@@ -15,6 +15,28 @@
           .replace(/Ã´/g, "ô");
   }
 
+  async function carregarMunicipios() {
+  try {
+    const response = await fetch('https://fesade1.github.io/DespTool/municipios.json');
+    if (!response.ok) throw new Error('Erro ao carregar municípios');
+    
+    const dados = await response.json();
+    
+    // O JSON esperado deve ser um array de objetos { "nome": "...", "cod": "..." }
+    state.municipios = dados;
+    console.log("Municípios carregados com sucesso.");
+  } catch (err) {
+    console.error("Falha ao buscar lista de municípios:", err);
+    // Fallback básico caso o link falhe
+    state.municipios = [
+      { nome: "Curitiba", cod: "7535" },
+      { nome: "Almirante Tamandaré", cod: "7407" }
+    ];
+  }
+}
+
+
+
   function scanAndFix(node) {
       if (node.nodeType === Node.TEXT_NODE) {
           node.textContent = fixEncoding(node.textContent);
@@ -22,6 +44,7 @@
           node.childNodes.forEach(scanAndFix);
       }
   }
+  
 
   function observePopup(shadowRoot) {
       const observer = new MutationObserver((mutations) => {
@@ -52,12 +75,8 @@
   // Estado persistente
   state.current = state.current || 'atalhos';
   state.selectedCidade = state.selectedCidade || null;
-
-  state.municipios = state.municipios || [
-    { nome: "Curitiba", cod: "7535" },
-    { nome: "Almirante Tamandaré", cod: "7407" }
-  ];
-
+  state.municipios = state.municipios || [];
+  
   state.atalhos = state.atalhos || [
     "Emitir CRLV",
     "Consultar CPF",
@@ -346,8 +365,7 @@
       }
     });
   }
-
-  // expor funções se precisar usar inline no HTML
+await carregarMunicipios();
   window.__SADE__.toggleSwitch = toggleSwitch;
   window.__SADE__.goBack = goBack;
   window.__SADE__.handleEmitirCRLV = handleEmitirCRLV;
