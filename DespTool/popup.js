@@ -67,6 +67,11 @@
     alert("Shadow DOM não encontrado.");
     return;
   }
+  shadow.querySelector("div").addEventListener("click",(e)=>{
+    if (e.target === e.currentTarget) {
+            e.target.remove()
+        }
+  })
 
   // Namespace global seguro
   window.__SADE__ = window.__SADE__ || {};
