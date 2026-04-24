@@ -1,32 +1,44 @@
-<style>
-  .bookmarklet-btn {
-    display: inline-block;
-    padding: 12px 24px;
-    background-color: #007bff;
-    color: white !important;
-    text-decoration: none !important;
-    border-radius: 8px;
-    font-weight: bold;
-    cursor: move; /* Muda o mouse para indicar que é para arrastar */
-    border: 2px dashed #0056b3;
-  }
-  .instructions {
-    margin-top: 10px;
-    font-family: sans-serif;
-    color: #555;
-  }
-</style>
-
-<div style="text-align: center; padding: 50px;">
-  <h1>Instalar Sade.AIO</h1>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <style>
+        .bookmarklet-btn {
+          display: inline-block;
+          padding: 12px 24px;
+          background-color: #007bff;
+          color: white !important;
+          text-decoration: none !important;
+          border-radius: 8px;
+          font-weight: bold;
+          cursor: move; /* Muda o mouse para indicar que é para arrastar */
+          border: 2px dashed #0056b3;
+        }
+        .instructions {
+          margin-top: 10px;
+          font-family: sans-serif;
+          color: #555;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DespTool Setup</title>
+</head>
+  <body>
+    <div style="text-align: center; padding: 50px;">
+    <h1>Instalar Sade.AIO</h1>
+    
+    <a class="bookmarklet-btn" href='javascript:(async()=>{const e=document.getElementById("sade-popup-container");if(e){e.remove();return;}try{const t=await fetch("https://fesade1.github.io/DespTool/popup.html");const n=await t.text();const container=document.createElement("div");container.id="sade-popup-container";document.body.appendChild(container);const shadow=container.attachShadow({mode:"open"});window.__SADE_SHADOW__=shadow;shadow.innerHTML=n;shadow.querySelectorAll("script").forEach(oldScript=>{const newScript=document.createElement("script");if(oldScript.src){newScript.src=oldScript.src;newScript.async=false;}else{newScript.textContent=oldScript.textContent;}shadow.appendChild(newScript);oldScript.remove();});}catch(e){alert("Erro ao carregar popup");alert(e.message);}})();'onclick="return false;" style="cursor: move; user-select: none;">
+      Sade.AIO DespTool
+    </a>
   
-  <a class="bookmarklet-btn" href='javascript:(async()=>{const e=document.getElementById("sade-popup-container");if(e){e.remove();return;}try{const t=await fetch("https://fesade1.github.io/DespTool/popup.html");const n=await t.text();const container=document.createElement("div");container.id="sade-popup-container";document.body.appendChild(container);const shadow=container.attachShadow({mode:"open"});window.__SADE_SHADOW__=shadow;shadow.innerHTML=n;shadow.querySelectorAll("script").forEach(oldScript=>{const newScript=document.createElement("script");if(oldScript.src){newScript.src=oldScript.src;newScript.async=false;}else{newScript.textContent=oldScript.textContent;}shadow.appendChild(newScript);oldScript.remove();});}catch(e){alert("Erro ao carregar popup");alert(e.message);}})();'onclick="return false;" style="cursor: move; user-select: none;">
-    Sade.AIO DespTool
-  </a>
+    <p class="instructions">
+      <strong>Como instalar:</strong> Clique no botão acima e 
+      <span style="color: #d9534f; font-weight: bold;">arraste-o</span> 
+      até a sua barra de favoritos (Ctrl+Shift+B para exibir a barra).
+    </p>
+  </div>
+</body>
+</html>
 
-  <p class="instructions">
-    <strong>Como instalar:</strong> Clique no botão acima e 
-    <span style="color: #d9534f; font-weight: bold;">arraste-o</span> 
-    até a sua barra de favoritos (Ctrl+Shift+B para exibir a barra).
-  </p>
-</div>
+
+
