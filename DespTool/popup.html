@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://fesade1.github.io/DespTool/detran.js" defer></script>
+    <script src="https://fesade1.github.io/DespTool/popup.js" defer></script>
+    <title>Popup</title>
+
+    <style>
+        * {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .blur {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+
+            backdrop-filter: blur(8px);
+            background: rgba(0, 0, 0, 0.2);
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            z-index: 9999;
+        }
+
+        .popup {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+
+            min-width: 320px;
+            max-height: 80vh;
+            overflow-y: auto;
+
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .header {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .back {
+            position: absolute;
+            left: 0;
+            cursor: pointer;
+            font-size: 20px;
+            font-weight: bold;
+            display: none;
+        }
+
+        .title {
+            font-weight: bold;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .switch-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+
+        .switch {
+            position: relative;
+            width: 260px;
+            height: 40px;
+            background: #eee;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .switch-slider {
+            position: absolute;
+            width: 50%;
+            height: 100%;
+            background: #007bff;
+            border-radius: 20px;
+            transition: 0.3s;
+            left: 0;
+        }
+
+        .switch-option {
+            flex: 1;
+            text-align: center;
+            z-index: 1;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .switch-option.active {
+            color: white;
+        }
+
+        .list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .item {
+            padding: 10px;
+            border-radius: 8px;
+            background: #f5f5f5;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .item:hover {
+            background: #e0e0e0;
+        }
+
+        .page {
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            background: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        button.loading {
+            position: relative;
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        button.loading::after {
+            content: "";
+            width: 16px;
+            height: 16px;
+            border: 2px solid white;
+            border-top: 2px solid transparent;
+            border-radius: 50%;
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            from {
+                transform: translateY(-50%) rotate(0deg);
+            }
+
+            to {
+                transform: translateY(-50%) rotate(360deg);
+            }
+        }
+
+        .result-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f5f5f5;
+            padding: 8px;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .copy-btn {
+            background: #28a745;
+            padding: 5px 8px;
+            font-size: 12px;
+            border-radius: 6px;
+        }
+
+        .copy-btn:hover {
+            opacity: 0.85;
+        }
+
+        /* AUTOCOMPLETE */
+        .autocomplete {
+            position: relative;
+            width: 100%;
+        }
+
+        .autocomplete-list {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            max-height: 150px;
+            overflow-y: auto;
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            margin-top: 5px;
+            display: none;
+            z-index: 10;
+        }
+
+        .autocomplete-item {
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .autocomplete-item:hover {
+            background: #f0f0f0;
+        }
+
+        /* VISTORIA */
+        .row {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .label {
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="blur">
+        <div class="popup">
+
+            <div class="header">
+                <div class="back" id="backBtn" onclick="window.__SADE__.goBack()"><</div>
+                <div class="title" id="title">Sade.AIO- DespTool</div>
+            </div>
+
+                <div id="menu">
+
+                    <div class="switch-container">
+                        <div class="switch" onclick="window.__SADE__.toggleSwitch()">
+                            <div class="switch-slider" id="slider"></div>
+                            <div class="switch-option active" id="atalhosLabel">Atalhos</div>
+                            <div class="switch-option" id="procuracoesLabel">Procurações</div>
+                        </div>
+                    </div>
+
+                    <div class="list" id="list"></div>
+
+                </div>
+
+                <div class="page" id="emitirCRLVPage">
+                    <input type="text" id="placaInput" placeholder="Placa do veículo">
+                    <button id="emitirBtn" onclick="window.__SADE__.handleEmitirCRLV()">Emitir</button>
+                </div>
+
+                <div class="page" id="consultarCPFPage">
+                    <input type="text" id="cpfInput" placeholder="Digite o CPF">
+                    <button id="cpfBtn" onclick="window.__SADE__.handleCPF()">Consultar</button>
+
+                    <div id="cpfResult" class="result-list"></div>
+                </div>
+
+                <!-- NOVO AUTOCOMPLETE -->
+                <div class="page" id="consultarEnderecoPage">
+                    <input type="text" id="docInput" placeholder="Digite o CPF/CNPJ">
+
+                    <div class="autocomplete">
+                        <input type="text" id="cidadeInput" placeholder="Digite o município">
+                        <div class="autocomplete-list" id="cidadeList"></div>
+                    </div>
+
+                    <button onclick="window.__SADE__.handleEndereco()">Consultar</button>
+                </div>
+
+                <!-- NOVA PAGE VISTORIA -->
+                <div class="page" id="vistoriaPage">
+                    <div class="label">Salvar como:</div>
+
+                    <div class="row">
+                        <button onclick="window.__SADE__.handleVistoria('pdf', this)">PDF</button>
+                        <button onclick="window.__SADE__.handleVistoria('foto', this)">Foto</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+</body>
+
+</html>
