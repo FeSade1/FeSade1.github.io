@@ -154,7 +154,7 @@ async function consultarEndereco(cpf, codMunicipio) {
 }
 
 
-async function baixarVistoria(tipo = 1) {
+async function baixarVistoria(tipo = "pdf") {
 
     function sanitize(texto) {
         return texto
@@ -225,7 +225,7 @@ async function baixarVistoria(tipo = 1) {
     // =========================
     // MODO 1 → JPG
     // =========================
-    if (tipo === 1) {
+    if (tipo === "foto") {
         items.forEach(({ src, nome }) => {
             const link = document.createElement("a");
             link.download = `${sanitize(nome)}-${sanitize(turma)}.jpg`;
@@ -242,7 +242,7 @@ async function baixarVistoria(tipo = 1) {
     // =========================
     // MODO 2 → PDF
     // =========================
-    if (tipo === 2) {
+    if (tipo === "pdf") {
 
         await loadScript("https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js");
 
