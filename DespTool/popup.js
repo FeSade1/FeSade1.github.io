@@ -69,7 +69,7 @@
   }
   shadow.querySelector("div").addEventListener("click",(e)=>{
     if (e.target === e.currentTarget) {
-            e.target.remove()
+          document.getElementById("sade-popup-container").remove();
         }
   })
 
