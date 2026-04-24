@@ -141,7 +141,7 @@
     return true;
   }
 
-  function handleItemClick(text) {
+  async function handleItemClick(text) {
     text = fixEncoding(text);
     if (text === "Emitir CRLV") {
       if (!checkDomain()) return;
@@ -154,6 +154,7 @@
     }
 
     if (text === "Consultar Endereços") {
+      await carregarMunicipios();
       openPage("Consultar Endereços", "consultarEnderecoPage");
     }
 
@@ -365,7 +366,7 @@
       }
     });
   }
-await carregarMunicipios();
+
   window.__SADE__.toggleSwitch = toggleSwitch;
   window.__SADE__.goBack = goBack;
   window.__SADE__.handleEmitirCRLV = handleEmitirCRLV;
