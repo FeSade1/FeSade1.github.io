@@ -1,4 +1,4 @@
-(async () => {
+async function loadDespTool() {
     const e = document.getElementById("sade-popup-container");
     if (e) {
         e.remove();
@@ -30,4 +30,5 @@
         alert("Erro ao carregar popup");
         alert(e.message);
     }
-})();
+}
+loadDespTool()
