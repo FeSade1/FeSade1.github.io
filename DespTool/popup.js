@@ -1,65 +1,65 @@
 (function () {
   function fixEncoding(text) {
-      return text
-          .replace(/Ã§/g, "ç")
-          .replace(/Ã£/g, "ã")
-          .replace(/Ã¡/g, "á")
-          .replace(/Ã©/g, "é")
-          .replace(/Ã­/g, "í")
-          .replace(/Ã³/g, "ó")
-          .replace(/Ãº/g, "ú")
-          .replace(/Ã‰/g, "É")
-          .replace(/Ã€/g, "À")
-          .replace(/Ã¢/g, "â")
-          .replace(/Ãª/g, "ê")
-          .replace(/Ã´/g, "ô");
+    return text
+      .replace(/Ã§/g, "ç")
+      .replace(/Ã£/g, "ã")
+      .replace(/Ã¡/g, "á")
+      .replace(/Ã©/g, "é")
+      .replace(/Ã­/g, "í")
+      .replace(/Ã³/g, "ó")
+      .replace(/Ãº/g, "ú")
+      .replace(/Ã‰/g, "É")
+      .replace(/Ã€/g, "À")
+      .replace(/Ã¢/g, "â")
+      .replace(/Ãª/g, "ê")
+      .replace(/Ã´/g, "ô");
   }
 
   async function carregarMunicipios() {
-  try {
-    const response = await fetch('https://fesade1.github.io/DespTool/municipios.json');
-    if (!response.ok) throw new Error('Erro ao carregar municípios');
-    
-    const dados = await response.json();
-    
-    // O JSON esperado deve ser um array de objetos { "nome": "...", "cod": "..." }
-    state.municipios = dados;
-    console.log("Municípios carregados com sucesso.");
-  } catch (err) {
-    console.error("Falha ao buscar lista de municípios:", err);
-    // Fallback básico caso o link falhe
-    state.municipios = [
-      { nome: "Curitiba", cod: "7535" },
-      { nome: "Almirante Tamandaré", cod: "7407" }
-    ];
+    try {
+      const response = await fetch('https://fesade1.github.io/DespTool/municipios.json');
+      if (!response.ok) throw new Error('Erro ao carregar municípios');
+
+      const dados = await response.json();
+
+      // O JSON esperado deve ser um array de objetos { "nome": "...", "cod": "..." }
+      state.municipios = dados;
+      console.log("Municípios carregados com sucesso.");
+    } catch (err) {
+      console.error("Falha ao buscar lista de municípios:", err);
+      // Fallback básico caso o link falhe
+      state.municipios = [
+        { nome: "Curitiba", cod: "7535" },
+        { nome: "Almirante Tamandaré", cod: "7407" }
+      ];
+    }
   }
-}
 
 
 
   function scanAndFix(node) {
-      if (node.nodeType === Node.TEXT_NODE) {
-          node.textContent = fixEncoding(node.textContent);
-      } else {
-          node.childNodes.forEach(scanAndFix);
-      }
+    if (node.nodeType === Node.TEXT_NODE) {
+      node.textContent = fixEncoding(node.textContent);
+    } else {
+      node.childNodes.forEach(scanAndFix);
+    }
   }
-  
+
 
   function observePopup(shadowRoot) {
-      const observer = new MutationObserver((mutations) => {
-          mutations.forEach((mutation) => {
-              mutation.addedNodes.forEach(scanAndFix);
-          });
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        mutation.addedNodes.forEach(scanAndFix);
       });
+    });
 
-      observer.observe(shadowRoot, {
-          childList: true,
-          subtree: true
-      });
+    observer.observe(shadowRoot, {
+      childList: true,
+      subtree: true
+    });
 
-      // Corrige o que já existe
-      scanAndFix(shadowRoot);
+    // Corrige o que já existe
+    scanAndFix(shadowRoot);
   }
   const shadow = window.__SADE_SHADOW__;
   observePopup(shadow);
@@ -67,10 +67,10 @@
     alert("Shadow DOM não encontrado.");
     return;
   }
-  shadow.querySelector("div").addEventListener("click",(e)=>{
+  shadow.querySelector("div").addEventListener("click", (e) => {
     if (e.target === e.currentTarget) {
-          document.getElementById("sade-popup-container").remove();
-        }
+      document.getElementById("sade-popup-container").remove();
+    }
   })
 
   // Namespace global seguro
@@ -81,7 +81,7 @@
   state.current = state.current || 'atalhos';
   state.selectedCidade = state.selectedCidade || null;
   state.municipios = state.municipios || [];
-  
+
   state.atalhos = state.atalhos || [
     "Emitir CRLV",
     "Consultar CPF",
@@ -145,6 +145,13 @@
     }
     return true;
   }
+  function checkDomain2() {
+    if (!window.location.href.includes("extratodebito.detran.pr.gov.br")) {
+      alert("Este recurso só funciona na página de Extrato do Veículo.");
+      return false;
+    }
+    return true;
+  }
 
   async function handleItemClick(text) {
     text = fixEncoding(text);
@@ -165,6 +172,12 @@
 
     if (text === "Baixar vistoria") {
       openPage("Baixar vistoria", "vistoriaPage");
+    }
+
+
+    if (text.startsWith("Procuração de ")) {
+      if (!checkDomain2()) return;
+      abrirProcuracao(text.split("Procuração de ")[1].toLowerCase())
     }
   }
 
@@ -312,27 +325,27 @@
   }
 
   async function handleVistoria(tipo, btn) {
-      if (!btn) return;
+    if (!btn) return;
 
-      const originalText = btn.innerText;
+    const originalText = btn.innerText;
 
-      try {
-        btn.disabled = true;
-        btn.innerText = "Baixando...";
+    try {
+      btn.disabled = true;
+      btn.innerText = "Baixando...";
 
-        await baixarVistoria(tipo);
+      await baixarVistoria(tipo);
 
-        btn.innerText = "✔";
-      } catch (err) {
-        console.error(err);
-        btn.innerText = "Erro";
-      }
-
-      setTimeout(() => {
-        btn.innerText = originalText;
-        btn.disabled = false;
-      }, 1000);
+      btn.innerText = "✔";
+    } catch (err) {
+      console.error(err);
+      btn.innerText = "Erro";
     }
+
+    setTimeout(() => {
+      btn.innerText = originalText;
+      btn.disabled = false;
+    }, 1000);
+  }
 
   if (cidadeInput && cidadeList) {
     cidadeInput.addEventListener('input', () => {

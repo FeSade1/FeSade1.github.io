@@ -309,4 +309,3 @@ async function abrirProcuracao(path) {
         window.focus();
     }
 }
-abrirProcuracao("vendedor")
