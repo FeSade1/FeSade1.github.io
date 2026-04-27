@@ -289,12 +289,14 @@ async function baixarVistoria(tipo = "pdf") {
 
 
 async function abrirProcuracao(path) {
+    var renavam = false
+    var chassi = false
     if (document.querySelector("#main > section > div:nth-child(1) > div.form-group.col-xs-1 > a") != undefined) {
-        const renavam = document.querySelector("#main > section > div:nth-child(2) > div:nth-child(1) > div").innerText;
-        const chassi = document.querySelector("#main > section > div:nth-child(2) > div:nth-child(2) > div").innerText;
+        renavam = document.querySelector("#main > section > div:nth-child(2) > div:nth-child(1) > div").innerText;
+        chassi = document.querySelector("#main > section > div:nth-child(2) > div:nth-child(2) > div").innerText;
     } else {
-        const renavam = document.querySelector("#main > section > div.content > div:nth-child(1) > div").innerText;
-        const chassi = document.querySelector("#main > section > div.content > div:nth-child(2) > div").innerText;
+        renavam = document.querySelector("#main > section > div.content > div:nth-child(1) > div").innerText;
+        chassi = document.querySelector("#main > section > div.content > div:nth-child(2) > div").innerText;
     }
 
     const placa = document.querySelector("#main > section > div.content > div:nth-child(3) > div").innerText;
