@@ -285,3 +285,28 @@ async function baixarVistoria(tipo = "pdf") {
 
     alert("Tipo inválido. Use 1 (JPG) ou 2 (PDF)");
 }
+
+
+
+async function abrirProcuracao(path) {
+    if (document.querySelector("#main > section > div:nth-child(1) > div.form-group.col-xs-1 > a") != undefined) {
+        const renavam = document.querySelector("#main > section > div:nth-child(2) > div:nth-child(1) > div").innerText;
+        const chassi = document.querySelector("#main > section > div:nth-child(2) > div:nth-child(2) > div").innerText;
+    } else {
+        const renavam = document.querySelector("#main > section > div.content > div:nth-child(1) > div").innerText;
+        const chassi = document.querySelector("#main > section > div.content > div:nth-child(2) > div").innerText;
+    }
+
+    const placa = document.querySelector("#main > section > div.content > div:nth-child(3) > div").innerText;
+    const marca = document.querySelector("#main > section > div.content > div:nth-child(4) > div").innerText;
+    const municipio = document.querySelector("#main > section > div.content > div:nth-child(5) > div").innerText;
+    const ano = document.querySelector("#main > section > div.content > div:nth-child(6) > div").innerText;
+    const combustivel = document.querySelector("#main > section > div.content > div:nth-child(7) > div").innerText;
+    const cor = document.querySelector("#main > section > div.content > div:nth-child(8) > div").innerText;
+    var newTab = window.open(`https://fesade1.github.io/${path}.html?renavam=${renavam}&chassi=${chassi}&placa=${placa}&modelo=${marca}&municipio=${municipio}&ano=${ano}&combustivel=${combustivel}&cor=${cor}`, "_blank");
+    if (newTab) {
+        newTab.blur();
+        window.focus();
+    }
+}
+abrirProcuracao("vendedor")
