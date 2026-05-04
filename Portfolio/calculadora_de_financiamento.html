@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora Financeira</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+    }
+
+    body {
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(135deg, #1e1e2f, #3a3a5f);
+    }
+
+    .card {
+        backdrop-filter: blur(15px);
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        padding: 30px;
+        width: 320px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        color: white;
+    }
+
+    .card h2 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    input {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: none;
+        border-radius: 10px;
+        outline: none;
+    }
+
+    button {
+        width: 100%;
+        padding: 10px;
+        border: none;
+        border-radius: 10px;
+        margin-top: 10px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    .calc {
+        background: #4CAF50;
+        color: white;
+    }
+
+    .clear {
+        background: #f44336;
+        color: white;
+    }
+
+    .msg {
+        margin-top: 10px;
+        text-align: center;
+        font-size: 14px;
+        color: #ffdddd;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="card">
+    <h2>Calculadora</h2>
+
+    <input type="number" id="meses" placeholder="Nº de meses">
+    <input type="number" id="juros" placeholder="Taxa de juros mensal (%)">
+    <input type="number" id="parcela" placeholder="Valor da parcela">
+    <input type="number" id="financiado" placeholder="Valor financiado">
+
+    <button class="calc" onclick="calcular()">Calcular</button>
+    <button class="clear" onclick="limpar()">Limpar</button>
+
+    <div class="msg" id="msg"></div>
+</div>
+
+<script>
+function calcular() {
+    const mesesEl = document.getElementById('meses');
+    const jurosEl = document.getElementById('juros');
+    const parcelaEl = document.getElementById('parcela');
+    const financiadoEl = document.getElementById('financiado');
+    const msg = document.getElementById('msg');
+
+    let meses = parseFloat(mesesEl.value);
+    let juros = parseFloat(jurosEl.value) / 100;
+    let parcela = parseFloat(parcelaEl.value);
+    let financiado = parseFloat(financiadoEl.value);
+
+    let preenchidos = [meses, jurosEl.value, parcela, financiado]
+        .filter(v => v !== "" && !isNaN(v)).length;
+
+    if (preenchidos !== 3) {
+        msg.innerText = "Preencha exatamente 3 campos para calcular o quarto.";
+        return;
+    }
+
+    msg.innerText = "";
+
+    // Calcular parcela
+    if (isNaN(parcela)) {
+        parcela = financiado * (juros * Math.pow(1 + juros, meses)) / (Math.pow(1 + juros, meses) - 1);
+        parcelaEl.value = parcela.toFixed(2);
+        return;
+    }
+
+    // Calcular financiado
+    if (isNaN(financiado)) {
+        financiado = parcela * ((Math.pow(1 + juros, meses) - 1) / (juros * Math.pow(1 + juros, meses)));
+        financiadoEl.value = financiado.toFixed(2);
+        return;
+    }
+
+    // Calcular meses (aproximação por tentativa)
+    if (isNaN(meses)) {
+        let n = 1;
+        while (n < 1000) {
+            let calc = financiado * (juros * Math.pow(1 + juros, n)) / (Math.pow(1 + juros, n) - 1);
+            if (Math.abs(calc - parcela) < 0.01) break;
+            n++;
+        }
+        mesesEl.value = n;
+        return;
+    }
+
+    // Calcular juros (aproximação)
+    if (isNaN(juros)) {
+        let i = 0.0001;
+        while (i < 1) {
+            let calc = financiado * (i * Math.pow(1 + i, meses)) / (Math.pow(1 + i, meses) - 1);
+            if (Math.abs(calc - parcela) < 0.01) break;
+            i += 0.0001;
+        }
+        jurosEl.value = (i * 100).toFixed(4);
+        return;
+    }
+}
+
+function limpar() {
+    document.getElementById('meses').value = "";
+    document.getElementById('juros').value = "";
+    document.getElementById('parcela').value = "";
+    document.getElementById('financiado').value = "";
+    document.getElementById('msg').innerText = "";
+}
+</script>
+
+</body>
+</html>
